@@ -1,10 +1,11 @@
 # ARCC1106-FINAL
 
 ## Contributors
-  Izaac Boho
-  Kyler Robertson  
+  ### Izaac Boho
+  ### Kyler Robertson
+  ### John Hann
 ## Sources
-  OpenGL
+  ### PyGame
 ## Project Ethos
 
 ## Project Aims

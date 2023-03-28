@@ -4,7 +4,6 @@
   Izaac Boho
   Kyler Robertson  
 ## Sources
-  Raycasting Logic - https://lodev.org/cgtutor/raycasting.html
   OpenGL
 ## Project Ethos
 

@@ -3,7 +3,7 @@
 ## Contributors
   ### Izaac Boho
   ### Kyler Robertson
-  ### John Hann
+  ### John Hahn
 ## Sources
   ### PyGame
 ## Project Ethos

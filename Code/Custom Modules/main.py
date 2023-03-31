@@ -25,8 +25,8 @@ def initialize_pygame():
 if __name__ == '__main__':
 
     win, clock = initialize_pygame()
-    player = Player_Object(winWidth/2,winHeight/2)
-    dungeon = map_object(win, 0, 0, 64, map1)
+    player = Player_Object(320, 240)
+    dungeon = TileMap(map1)
 
     while True:
 
@@ -66,32 +66,46 @@ if __name__ == '__main__':
 
             player.x -= player.velX
 
-            dungeon.x -= player.velX
+            dungeon.x0 -= player.velX
 
         if player.x < 300 - 64:
 
             player.x -= player.velX
 
-            dungeon.x -= player.velX
+            dungeon.x0 -= player.velX
 
         if player.y > 280:
 
             player.y -= player.velY
 
-            dungeon.y -= player.velY
+            dungeon.y0 -= player.velY
 
         if player.y < 200:
 
             player.y -= player.velY
 
-            dungeon.y -= player.velY
+            dungeon.y0 -= player.velY
+
+        tiles = dungeon.read()
+
+        colliding = dungeon.check_collisions(player.x, player.y)
+        if colliding == "collision":
+
+            player.y -= player.velY
+            player.x -= player.velX
 
         win.fill((12,24,36))
 
         player.draw(win)
 
-        dungeon.draw_map()
+        for i in range(len(tiles)):
+
+            win.blit(tiles[i][2], (tiles[i][0], tiles[i][1]))
 
         player.update()
+
         pygame.display.flip()
+
+        tiles.clear()
+
         clock.tick(120)

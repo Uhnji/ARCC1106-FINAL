@@ -1,42 +1,47 @@
 import pygame
 pygame.init()
 
-winWidth, winHeight = 640, 480
-win = pygame.display.set_mode((winWidth, winHeight))
+class TileMap:
 
-WHITE = (255, 255, 255)
+    def __init__(self, map):
 
-class map_object:
-
-    def __init__(self, display, x, y, tilesize, map):
-
-        self.display = display
-        self.x, self.y = x, y
-        self.tilesize = tilesize
+        self.tiles = []
         self.map = map
+        self.tile_size = 16 * 4
+        self.x0, self.y0 = 0, 0
+        self.x, self.y = self.x0, self.y0
 
-    def draw_map(self):
+        self.demo_tile = pygame.image.load("Sprites/Demo_Tile.png")
+        self.demo_tile = pygame.transform.scale(self.demo_tile, (self.tile_size, self.tile_size))
 
-        self.xInit = self.x
-        self.yInit = self.y
+    def read(self):
 
-        self.collision = []
+        for i in range(len(self.map)):
 
-        for i in range(0, len(self.map)):
-
-            for j in range(0, len(self.map[i])):
+            for j in range(len(self.map[i])):
 
                 if self.map[i][j] == 1:
 
-                    pygame.draw.rect(self.display, WHITE, (self.x, self.y, self.tilesize, self.tilesize))
-                    self.collision.append([self.x, self.y])
-                    self.x += self.tilesize
+                    self.tiles.append([self.x, self.y, self.demo_tile])
 
-                else:
+                self.x += self.tile_size
 
-                    self.x += self.tilesize
+            self.y += self.tile_size
+            self.x = self.x0
 
-            self.y += self.tilesize
-            self.x = self.xInit
+        self.y = self.y0
 
-        self.y = self.yInit
+        return self.tiles
+
+    def check_collisions(self, px, py):
+
+        self.px = px
+        self.py = py
+
+        for i in range(len(self.tiles)):
+
+            if self.px > self.tiles[i][0] and self.px < self.tiles[i][0] + self.tile_size or self.px + 32 > self.tiles[i][0] and self.px + 32 < self.tiles[i][0] + self.tile_size :
+
+                if self.py > self.tiles[i][1] and self.py < self.tiles[i][1] + self.tile_size or self.py + 32 > self.tiles[i][1] and self.py + 32 < self.tiles[i][1] + self.tile_size:
+
+                    return "collision"

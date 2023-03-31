@@ -69,6 +69,4 @@ class Player_Object:
         self.x += self.velX
         self.y += self.velY
 
-        print(f"VelocityX: {self.velX} VelocityY: {self.velY} Cooldown: {self.cooldown}")
-
         self.rect = pygame.Rect(self.x, self.y, 32, 32)

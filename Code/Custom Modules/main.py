@@ -91,8 +91,8 @@ if __name__ == '__main__':
         colliding = dungeon.check_collisions(player.x, player.y)
         if colliding == "collision":
 
-            player.y -= player.velY
-            player.x -= player.velX
+            player.y -= player.velY * 1.5
+            player.x -= player.velX * 1.5
 
         win.fill((12,24,36))
 

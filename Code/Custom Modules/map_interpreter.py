@@ -38,10 +38,12 @@ class TileMap:
         self.px = px
         self.py = py
 
+        self.accuracy = 1
+
         for i in range(len(self.tiles)):
 
-            if self.px > self.tiles[i][0] and self.px < self.tiles[i][0] + self.tile_size or self.px + 32 > self.tiles[i][0] and self.px + 32 < self.tiles[i][0] + self.tile_size :
+            if self.px + self.accuracy > self.tiles[i][0] and self.px + self.accuracy < self.tiles[i][0] + self.tile_size or self.px + 32 - self.accuracy > self.tiles[i][0] and self.px + 32 - self.accuracy < self.tiles[i][0] + self.tile_size :
 
-                if self.py > self.tiles[i][1] and self.py < self.tiles[i][1] + self.tile_size or self.py + 32 > self.tiles[i][1] and self.py + 32 < self.tiles[i][1] + self.tile_size:
+                if self.py + self.accuracy > self.tiles[i][1] and self.py + self.accuracy < self.tiles[i][1] + self.tile_size or self.py + 32 - self.accuracy > self.tiles[i][1] and self.py + 32 - self.accuracy < self.tiles[i][1] + self.tile_size:
 
                     return "collision"

@@ -1,10 +1,7 @@
 import pygame
 import math
-import animation_lib
 import sys
 import os
-
-from animation_lib import *
 
 class Player_Object:
     def __init__(self, x, y):

@@ -137,17 +137,12 @@ class Player_Object:
             self.accuracy = 11 #Multiples of 10 make the collisions weird. Play around with this value if collisions are weird anyways.
 
             if self.colliding:
-                if abs(self.tile_rect.top - self.rect.bottom) < self.accuracy and self.velY > 0:
-                    self.y -= self.velY
+                if abs(self.tile_rect.top - self.rect.bottom) < self.accuracy and self.velY > 0 or abs(self.tile_rect.bottom - self.rect.top) < self.accuracy and self.velY < 0:
+                    self.y -= self.velY * 1.1
 
-                if abs(self.tile_rect.bottom - self.rect.top) < self.accuracy and self.velY < 0:
-                    self.y -= self.velY
-
-                if abs(self.tile_rect.right - self.rect.left) < self.accuracy and self.velX < 0:
-                    self.x -= self.velX
-
-                if abs(self.tile_rect.left - self.rect.right) < self.accuracy and self.velX > 0:
-                    self.x -= self.velX
+                if abs(self.tile_rect.right - self.rect.left) < self.accuracy and self.velX < 0 or abs(self.tile_rect.left - self.rect.right) < self.accuracy and self.velX > 0:
+                    self.x -= self.velX * 1.1
+                    
     def update(self):
         self.velX = 0
         self.velY = 0

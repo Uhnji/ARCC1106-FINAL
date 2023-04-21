@@ -8,12 +8,20 @@ from player import Player_Object
 from map_interpreter import *
 from map_data import *
 
+winWidth = 640
+winHeight = 480
+
+def y_sort(render_layer):
+    for i in range(len(render_layer)):
+        for j in range(i, len(render_layer)):
+            if render_layer[i][2] >= render_layer[j][2]:
+                cache = render_layer[i]
+                render_layer[i] = render_layer[j]
+                render_layer[j] = cache
+
 def initialize_pygame(): 
     """Sets starting parameters, WIDTH, HEIGHT, and TITILE parameters and instantilizes PyGame"""
     TITLE = "CSCI_FINAL V.0.1 - MOVEMENT TEST"
-
-    winWidth = 640
-    winHeight = 480
     win = pygame.display.set_mode((winWidth, winHeight))
     pygame.display.set_caption(TITLE)
     pygame.init()
@@ -21,15 +29,13 @@ def initialize_pygame():
     clock = pygame.time.Clock()
     return win,clock
 
-
 if __name__ == '__main__':
-
+    render_layer1 = []
     win, clock = initialize_pygame()
     player = Player_Object(320, 240)
     dungeon = TileMap(map1)
 
     while True:
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -62,50 +68,40 @@ if __name__ == '__main__':
             else:
                 player.dash_active = False
 
-        if player.x > 340:
-
-            player.x -= player.velX
-
-            dungeon.x0 -= player.velX
-
-        if player.x < 300 - 64:
-
-            player.x -= player.velX
-
-            dungeon.x0 -= player.velX
-
-        if player.y > 280:
-
-            player.y -= player.velY
-
-            dungeon.y0 -= player.velY
-
-        if player.y < 200:
-
-            player.y -= player.velY
-
-            dungeon.y0 -= player.velY
-
         tiles = dungeon.read()
 
-        colliding = dungeon.check_collisions(player.x, player.y)
-        if colliding == "collision":
+        player.update()
+        player.check_collisions(tiles)
 
-            player.y -= player.velY * 1.5
-            player.x -= player.velX * 1.5
+        #Camera movement section start.
+        camera_x = (player.x - winWidth/2 + 16)/20
+        camera_y = (player.y - winHeight/2 + 16)/20
 
+        dungeon.x0 -= camera_x
+        dungeon.y0 -= camera_y
+
+        player.x -= camera_x
+        player.y -= camera_y
+        #Camera movement section end.
+
+        #Add to render layer 1.
+        render_layer1.append(player.draw(win))
+
+        render_layer1 += tiles
+        tiles.clear()
+        #End to render layer 1.
+
+        y_sort(render_layer1)
+
+        #Render loop.
         win.fill((12,24,36))
 
-        player.draw(win)
-
-        for i in range(len(tiles)):
-
-            win.blit(tiles[i][2], (tiles[i][0], tiles[i][1]))
-
-        player.update()
+        #Render render layer 1.
+        for i in range(len(render_layer1)):
+            win.blit(render_layer1[i][0], (render_layer1[i][1], render_layer1[i][2]))
 
         pygame.display.flip()
 
-        tiles.clear()
+        render_layer1.clear()
 
         clock.tick(120)

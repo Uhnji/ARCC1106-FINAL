@@ -11,7 +11,7 @@ from map_data import *
 winWidth = 640
 winHeight = 480
 
-def y_sort(render_layer):
+def y_sort(render_layer): #Sorts from bottom to top to get render order.
     for i in range(len(render_layer)):
         for j in range(i, len(render_layer)):
             if render_layer[i][2] >= render_layer[j][2]:

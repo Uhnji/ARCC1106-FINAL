@@ -134,7 +134,7 @@ class Player_Object:
         for i in range(len(tiles)):
             self.tile_rect = pygame.Rect(tiles[i][1], tiles[i][2], 64,64)
             self.colliding = pygame.Rect.colliderect(self.rect, self.tile_rect)
-            self.accuracy = 11
+            self.accuracy = 11 #Multiples of 10 make the collisions weird. Play around with this value if collisions are weird anyways.
 
             if self.colliding:
                 if abs(self.tile_rect.top - self.rect.bottom) < self.accuracy and self.velY > 0:

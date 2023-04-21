@@ -103,15 +103,15 @@ TEXT_COLOR = (255,255,255) # text color
 FILL_COlOR = (52,78,91)    # background color
 
 # Button Images
-audio_settings_img = pygame.image.load("C:\\John's Stuff\\VS Code\\CSCI 1106 - 80\Game\\GameImages\\AudioSettingsButtonImage.png").convert_alpha()
-back_img = pygame.image.load("C:\\John's Stuff\\VS Code\\CSCI 1106 - 80\Game\\GameImages\\BackButtonImage.png").convert_alpha()
-back1_img = pygame.image.load("C:\\John's Stuff\\VS Code\\CSCI 1106 - 80\Game\\GameImages\\BackButtonImage.png").convert_alpha()
-key_bindings_img = pygame.image.load("C:\\John's Stuff\\VS Code\\CSCI 1106 - 80\Game\\GameImages\\KeyBindingsButtonImage.png").convert_alpha()
-options_img = pygame.image.load("C:\\John's Stuff\\VS Code\\CSCI 1106 - 80\Game\\GameImages\\OptionsButtonImage.png").convert_alpha()
-quit_img = pygame.image.load("C:\\John's Stuff\\VS Code\\CSCI 1106 - 80\Game\\GameImages\\QuitButtonImage.png").convert_alpha()
-resume_img = pygame.image.load("C:\\John's Stuff\\VS Code\\CSCI 1106 - 80\Game\\GameImages\\ResumeButtonImage.png").convert_alpha()
-start_img = pygame.image.load("C:\\John's Stuff\\VS Code\\CSCI 1106 - 80\Game\\GameImages\\LockStartButtonImage.png").convert_alpha()
-video_settings_img = pygame.image.load("C:\\John's Stuff\\VS Code\\CSCI 1106 - 80\Game\\GameImages\\VideoSettingsButtonImage.png").convert_alpha()
+audio_settings_img = pygame.image.load('Sprites\MenuAssets\AudioSettingsButtonImage.png').convert_alpha()
+back_img = pygame.image.load('Sprites\MenuAssets\BackButtonImage.png').convert_alpha()
+back1_img = pygame.image.load('Sprites\MenuAssets\BackButtonImage.png').convert_alpha()
+key_bindings_img = pygame.image.load('Sprites\MenuAssets\KeyBindingsButtonImage.png').convert_alpha()
+options_img = pygame.image.load('Sprites\MenuAssets\OptionsButtonImage.png').convert_alpha()
+quit_img = pygame.image.load('Sprites\MenuAssets\QuitButtonImage.png').convert_alpha()
+resume_img = pygame.image.load('Sprites\MenuAssets\ResumeButtonImage.png').convert_alpha()
+start_img = pygame.image.load('Sprites\MenuAssets\LockStartButtonImage.png').convert_alpha()
+video_settings_img = pygame.image.load('Sprites\MenuAssets\VideoSettingsButtonImage.png').convert_alpha()
 
 # Button Instances 
 audio_settings_button = Button(225, 200, audio_settings_img, 1)

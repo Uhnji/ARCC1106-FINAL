@@ -21,15 +21,18 @@ def y_sort(render_layer): #Sorts from bottom to top to get render order.
 
 def initialize_pygame(): 
     """Sets starting parameters, WIDTH, HEIGHT, and TITILE parameters and instantilizes PyGame"""
-    TITLE = "CSCI_FINAL V.0.3 - PRESENTATION EDITION"
+    TITLE = "Dwelt"
+    GAME_PNG = pygame.image.load("Sprites/GAMETITLEICON.png")
     win = pygame.display.set_mode((winWidth, winHeight))
     pygame.display.set_caption(TITLE)
+    pygame.display.set_icon(GAME_PNG)
     pygame.init()
 
     clock = pygame.time.Clock()
     return win,clock
 
 if __name__ == '__main__':
+    render_layer0 = []
     render_layer1 = []
     render_layer2 = []
     win, clock = initialize_pygame()
@@ -113,7 +116,19 @@ if __name__ == '__main__':
         #Add to render layer 1.
         render_layer1.append(player.draw(win))
 
-        render_layer1 += tiles
+        layer0 = []
+        layer1 = []
+        for i in range((len(tiles))):
+            if tiles[i][3] == 1:
+                layer1.append(tiles[i])
+            if tiles[i][3] == 0:
+                layer0.append(tiles[i])
+            
+
+        render_layer0 += layer0
+        render_layer1 += layer1
+        layer0.clear()
+        layer1.clear()
         tiles.clear()
         #End to render layer 1.
 
@@ -123,6 +138,10 @@ if __name__ == '__main__':
         win.fill((12,24,36))
 
         #Render render layer 1.
+
+        for i in range(len(render_layer0)): 
+            win.blit(render_layer0[i][0], (render_layer0[i][1], render_layer0[i][2]))
+
         for i in range(len(render_layer1)): # Walls, Players, Enemies
             win.blit(render_layer1[i][0], (render_layer1[i][1], render_layer1[i][2]))
 
@@ -131,6 +150,7 @@ if __name__ == '__main__':
 
         pygame.display.flip()
 
+        render_layer0.clear()
         render_layer1.clear()
         render_layer2.clear()
 

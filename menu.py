@@ -50,34 +50,15 @@ def on_screen_buttons():
        screen that says what is in the bottom else statement."""
     global running, game_paused, menu_state, game_start
     if game_paused:
-        if menu_state =='main':
-            if game_start:
-                if start_button.draw(screen):
-                    game_paused = False
-                    game_start = False
-            elif not game_start:
-                if resume_button.draw(screen):
-                    game_paused = False
-                    
-            if options_button.draw(screen):
-                menu_state = 'options'
-            if quit_button.draw(screen):
-                running = False
-        
-        if menu_state == 'options':
-            if video_settings_button.draw(screen):
-                print('Video')
-            if audio_settings_button.draw(screen):
-                menu_state = 'audio'
-                print(menu_state)
-            if key_bindings_button.draw(screen):
-                print('Keys')
-            if back_button.draw(screen):
-                menu_state = 'main'
-
-        if menu_state == 'audio':
-            if back1_button.draw(screen):
-                menu_state = 'options'
+        if game_start:
+            if start_button.draw(screen):
+                game_paused = False
+                game_start = False
+        elif not game_start:
+            if resume_button.draw(screen):
+                game_paused = False
+        if quit_button.draw(screen):
+            running = False
     else:
         draw_text('Press ESCAPE to pause', font1, TEXT_COLOR, 160, 250)
 pygame.init()
@@ -93,7 +74,6 @@ pygame.display.set_caption('MENU')  # Window caption name
 running = True      # Checks if game loop is running
 game_start = True
 game_paused = True # Checks if game is paused
-menu_state = "main" # variable for the menu state
 
 # Define Fonts
 font1 = pygame.font.SysFont('arialblack', 40) # font
@@ -103,27 +83,13 @@ TEXT_COLOR = (255,255,255) # text color
 FILL_COlOR = (52,78,91)    # background color
 
 # Button Images
-audio_settings_img = pygame.image.load('Sprites\MenuAssets\AudioSettingsButtonImage.png').convert_alpha()
-back_img = pygame.image.load('Sprites\MenuAssets\BackButtonImage.png').convert_alpha()
-back1_img = pygame.image.load('Sprites\MenuAssets\BackButtonImage.png').convert_alpha()
-key_bindings_img = pygame.image.load('Sprites\MenuAssets\KeyBindingsButtonImage.png').convert_alpha()
-options_img = pygame.image.load('Sprites\MenuAssets\OptionsButtonImage.png').convert_alpha()
 quit_img = pygame.image.load('Sprites\MenuAssets\QuitButtonImage.png').convert_alpha()
 resume_img = pygame.image.load('Sprites\MenuAssets\ResumeButtonImage.png').convert_alpha()
 start_img = pygame.image.load('Sprites\MenuAssets\LockStartButtonImage.png').convert_alpha()
-video_settings_img = pygame.image.load('Sprites\MenuAssets\VideoSettingsButtonImage.png').convert_alpha()
-
 # Button Instances 
-audio_settings_button = Button(225, 200, audio_settings_img, 1)
-back_button = Button(332, 450, back_img, 1)
-back1_button = Button(332, 450, back1_img, 1)
-key_bindings_button = Button(246, 325, key_bindings_img, 1)
-options_button = Button(297, 250, options_img, 1)
-quit_button = Button(336, 375, quit_img, 1)
+quit_button = Button(336, 300, quit_img, 1)
 resume_button = Button(300, 125, resume_img, 1)
 start_button = Button(300, 125, start_img, 0.4)
-video_settings_button = Button(226, 75, video_settings_img, 1)
-
 
 # Game Loop     
 while running:

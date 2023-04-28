@@ -6,6 +6,7 @@ class TileMap:
     def __init__(self, map):
 
         self.tiles = []#List to store tile data.
+        self.floor_tiles =[]
         self.map = map#Get map data.
         self.tile_size = 16 * 4
         self.x0, self.y0 = 0, 0
@@ -23,7 +24,7 @@ class TileMap:
             for j in range(len(self.map[i])):
 
                 if self.map[i][j] == 0:
-                    self.tiles.append([self.floor_tile, self.x, self.y,0])
+                    self.floor_tiles.append([self.floor_tile, self.x, self.y,0])
                 if self.map[i][j] == 1:
 
                     self.tiles.append([self.demo_tile, self.x, self.y,1])
@@ -36,4 +37,4 @@ class TileMap:
 
         self.y = self.y0
 
-        return self.tiles
+        return self.tiles, self.floor_tiles

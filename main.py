@@ -3,6 +3,8 @@ import sys
 import map_interpreter
 import map_data
 import os
+import enemy
+from enemy import *
 
 from player import Player_Object
 from map_interpreter import *
@@ -37,6 +39,7 @@ if __name__ == '__main__':
     render_layer2 = []
     win, clock = initialize_pygame()
     player = Player_Object(320, 240)
+    enemy = Enemy(320, 240)
     dungeon = TileMap(map1)
 
     while True:
@@ -53,7 +56,7 @@ if __name__ == '__main__':
                 player.left = False
 
             if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-                player.right = True
+               player.right = True
             else:
                 player.right = False
 
@@ -72,10 +75,12 @@ if __name__ == '__main__':
             else:
                 player.dash_active = False
 
-        tiles = dungeon.read()
+        tiles, floor_tiles = dungeon.read()
 
+        enemy.update(player.x, player.y)
         player.update()
         player.check_collisions(tiles)
+        enemy.check_collisions(tiles)
 
 
 
@@ -111,25 +116,19 @@ if __name__ == '__main__':
 
         player.x -= camera_x
         player.y -= camera_y
+
+        enemy.x -= camera_x
+        enemy.y -= camera_y
         #Camera movement section end.
 
         #Add to render layer 1.
         render_layer1.append(player.draw(win))
-
-        layer0 = []
-        layer1 = []
-        for i in range((len(tiles))):
-            if tiles[i][3] == 1:
-                layer1.append(tiles[i])
-            if tiles[i][3] == 0:
-                layer0.append(tiles[i])
             
 
-        render_layer0 += layer0
-        render_layer1 += layer1
-        layer0.clear()
-        layer1.clear()
+        render_layer0 += floor_tiles
+        render_layer1 += tiles
         tiles.clear()
+        floor_tiles.clear()
         #End to render layer 1.
 
         y_sort(render_layer1)
@@ -147,6 +146,8 @@ if __name__ == '__main__':
 
         for i in range(len(render_layer2)): # Rendered HUD icons, Projectiles, Items
             win.blit(render_layer2[i][0], (render_layer2[i][1], render_layer2[i][2]))
+
+        enemy.render(win)
 
         pygame.display.flip()
 

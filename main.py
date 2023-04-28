@@ -3,9 +3,9 @@ import sys
 import map_interpreter
 import map_data
 import os
-import enemy
 from enemy import *
 
+import DLAmap
 from player import Player_Object
 from map_interpreter import *
 from map_data import *
@@ -25,7 +25,7 @@ def initialize_pygame():
     """Sets starting parameters, WIDTH, HEIGHT, and TITILE parameters and instantilizes PyGame"""
     TITLE = "Dwelt"
     GAME_PNG = pygame.image.load("Sprites/GAMETITLEICON.png")
-    win = pygame.display.set_mode((winWidth, winHeight))
+    win = pygame.display.set_mode((winWidth, winHeight),vsync=1)
     pygame.display.set_caption(TITLE)
     pygame.display.set_icon(GAME_PNG)
     pygame.init()
@@ -38,9 +38,15 @@ if __name__ == '__main__':
     render_layer1 = []
     render_layer2 = []
     win, clock = initialize_pygame()
-    player = Player_Object(320, 240)
-    enemy = Enemy(320, 240)
-    dungeon = TileMap(map1)
+    player = Player_Object(1792, 1792)
+    enemy = Enemy(1792, 1792)
+    map = DLAmap.map_gen()
+    map.explode_map()
+    map.map_convert()
+    map.map_finalize()
+
+    dungeon = TileMap(map.final_map)
+
 
     while True:
         for event in pygame.event.get():
@@ -75,12 +81,12 @@ if __name__ == '__main__':
             else:
                 player.dash_active = False
 
-        tiles, floor_tiles = dungeon.read()
+        tiles, floor_tiles = dungeon.read(win)
 
-        enemy.update()
+        enemy.update(player.x, player.y)
         player.update()
         player.check_collisions(tiles)
-        enemy.check_collisions(tiles, player.rect)
+        enemy.check_collisions(tiles)
 
 
 

@@ -15,18 +15,15 @@ class TileMap:
         self.demo_tile = pygame.image.load("Sprites/Terrain Tiles/Demo_Tile.png")
         self.demo_tile = pygame.transform.scale(self.demo_tile, (self.tile_size, self.tile_size))
 
-        self.floor_tile = pygame.image.load("Sprites/Terrain Tiles/FloorTile.png")
+        self.floor_tile = pygame.image.load("Sprites/Terrain Tiles/Final_Floortile.png")
 
-    def read(self):#Run through each nested list in the map data, and store a tile in tiles list when map[i] = 1.
+    def read(self,win):#Run through each nested list in the map data, and store a tile in tiles list when map[i] = 1.
 
         for i in range(len(self.map)):
-
             for j in range(len(self.map[i])):
-
-                if self.map[i][j] == 0:
+                if self.map[i][j] == 0 and (-64<self.x<(win.get_width()) and -64<self.y<(win.get_height())):
                     self.floor_tiles.append([self.floor_tile, self.x, self.y,0])
-                if self.map[i][j] == 1:
-
+                if self.map[i][j] == 1 and (-64<self.x<win.get_width() and -64<self.y<win.get_height()):
                     self.tiles.append([self.demo_tile, self.x, self.y,1])
 
                 self.x += self.tile_size

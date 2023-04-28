@@ -77,10 +77,10 @@ if __name__ == '__main__':
 
         tiles, floor_tiles = dungeon.read()
 
-        enemy.update(player.x, player.y)
+        enemy.update()
         player.update()
         player.check_collisions(tiles)
-        enemy.check_collisions(tiles)
+        enemy.check_collisions(tiles, player.rect)
 
 
 

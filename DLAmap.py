@@ -22,7 +22,7 @@ class map_gen:
         ]
 
         self.side_count_map = [ # Dictionary map of the rooms that stores what direction the rooms are connnected. Second step in the room generation process, allows for the rooms to be connected accurately accord to the doors.
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -177,8 +177,8 @@ class map_gen:
         if counter<25:
             temp_value = self.node_map[0][0]
             while temp_value != 1: # Selects a random room node to explode
-                x_rand =  random.randint(0,11)
-                y_rand = random.randint(0,11)
+                x_rand =  random.randint(1,10)
+                y_rand = random.randint(1,10)
                 temp_value = self.node_map[y_rand][x_rand]
             test_side = random.randint(0,3) #selects which direction the room explosion takes
             if test_side == 0:
@@ -220,99 +220,97 @@ class map_gen:
         for y in range(len(self.side_count_map)):
             for x in range(len(self.side_count_map[y])):
                 if isinstance(self.side_count_map[y][x],dict):
-
+                    room_var = random.randint(0,2)
                     counterx = 0
                     countery = 0
 
                     # Tests for the Four Sided Room
                     if self.side_count_map[y][x]["right"] == True and self.side_count_map[y][x]["left"] == True and self.side_count_map[y][x]["top"] == True and self.side_count_map[y][x]["bottom"] == True:
-                        for i in range(len(map_data.n_s_e_w_connection[0])):
-                            for e in range(len(map_data.n_s_e_w_connection[0][i])):
-                                self.final_map[y*11+countery][x*11+counterx] = map_data.n_s_e_w_connection[0][i][e]
+                        for i in range(len(map_data.n_s_e_w_connection[room_var])):
+                            for e in range(len(map_data.n_s_e_w_connection[room_var][i])):
+                                self.final_map[y*11+countery][x*11+counterx] = map_data.n_s_e_w_connection[room_var][i][e]
                                 counterx += 1
                             counterx = 0
                             countery +=1
 
-
-
                     #Tests for three Sided Rooms
                     elif self.side_count_map[y][x]["top"] == True and self.side_count_map[y][x]["left"] == True and self.side_count_map[y][x]["right"] == True:
-                        for i in range(len(map_data.n_w_e_connection[0])):
-                            for e in range(len(map_data.n_w_e_connection[0][i])):
-                                self.final_map[y*11+countery][x*11+counterx] = map_data.n_w_e_connection[0][i][e]
+                        for i in range(len(map_data.n_w_e_connection[room_var])):
+                            for e in range(len(map_data.n_w_e_connection[room_var][i])):
+                                self.final_map[y*11+countery][x*11+counterx] = map_data.n_w_e_connection[room_var][i][e]
                                 counterx += 1
                             counterx = 0
                             countery +=1
 
                     elif self.side_count_map[y][x]["top"] == True and self.side_count_map[y][x]["bottom"] == True and self.side_count_map[y][x]["right"] == True:
-                        for i in range(len(map_data.n_s_e_connection[0])):
-                            for e in range(len(map_data.n_s_e_connection[0][i])):
-                                self.final_map[y*11+countery][x*11+counterx] = map_data.n_s_e_connection[0][i][e]
+                        for i in range(len(map_data.n_s_e_connection[room_var])):
+                            for e in range(len(map_data.n_s_e_connection[room_var][i])):
+                                self.final_map[y*11+countery][x*11+counterx] = map_data.n_s_e_connection[room_var][i][e]
                                 counterx += 1
                             counterx = 0
                             countery +=1
 
                     elif self.side_count_map[y][x]["top"] == True and self.side_count_map[y][x]["bottom"] == True and self.side_count_map[y][x]["left"] == True:
-                        for i in range(len(map_data.n_s_w_connection[0])):
-                            for e in range(len(map_data.n_s_w_connection[0][i])):
-                                self.final_map[y*11+countery][x*11+counterx] = map_data.n_s_w_connection[0][i][e]
+                        for i in range(len(map_data.n_s_w_connection[room_var])):
+                            for e in range(len(map_data.n_s_w_connection[room_var][i])):
+                                self.final_map[y*11+countery][x*11+counterx] = map_data.n_s_w_connection[room_var][i][e]
                                 counterx += 1
                             counterx = 0
                             countery +=1
 
                     elif self.side_count_map[y][x]["bottom"] == True and self.side_count_map[y][x]["left"] == True and self.side_count_map[y][x]["right"] == True:
-                        for i in range(len(map_data.s_w_e_connection[0])):
-                            for e in range(len(map_data.s_w_e_connection[0][i])):
-                                self.final_map[y*11+countery][x*11+counterx] = map_data.s_w_e_connection[0][i][e]
+                        for i in range(len(map_data.s_w_e_connection[room_var])):
+                            for e in range(len(map_data.s_w_e_connection[room_var][i])):
+                                self.final_map[y*11+countery][x*11+counterx] = map_data.s_w_e_connection[room_var][i][e]
                                 counterx += 1
                             counterx = 0
                             countery +=1
 
                     #Tests for two Sided Rooms
                     elif self.side_count_map[y][x]["left"] == True and self.side_count_map[y][x]["right"] == True:
-                        for i in range(len(map_data.horizontal_rooms[0])):
-                            for e in range(len(map_data.horizontal_rooms[0][i])):
-                                self.final_map[y*11+countery][x*11+counterx] = map_data.horizontal_rooms[0][i][e]
+                        for i in range(len(map_data.horizontal_rooms[room_var])):
+                            for e in range(len(map_data.horizontal_rooms[room_var][i])):
+                                self.final_map[y*11+countery][x*11+counterx] = map_data.horizontal_rooms[room_var][i][e]
                                 counterx += 1
                             counterx = 0
                             countery +=1
                 
                     elif self.side_count_map[y][x]["bottom"] == True and self.side_count_map[y][x]["top"] == True:
-                        for i in range(len(map_data.vertical_rooms[0])):
-                            for e in range(len(map_data.vertical_rooms[0][i])):
-                                self.final_map[y*11+countery][x*11+counterx] = map_data.vertical_rooms[0][i][e]
+                        for i in range(len(map_data.vertical_rooms[room_var])):
+                            for e in range(len(map_data.vertical_rooms[room_var][i])):
+                                self.final_map[y*11+countery][x*11+counterx] = map_data.vertical_rooms[room_var][i][e]
                                 counterx += 1
                             counterx = 0
                             countery +=1
                 
                     elif self.side_count_map[y][x]["top"] == True and self.side_count_map[y][x]["right"] == True:
-                        for i in range(len(map_data.north_east_rooms[0])):
-                            for e in range(len(map_data.north_east_rooms[0][i])):
-                                self.final_map[y*11+countery][x*11+counterx] = map_data.north_east_rooms[0][i][e]
+                        for i in range(len(map_data.north_east_rooms[room_var])):
+                            for e in range(len(map_data.north_east_rooms[room_var][i])):
+                                self.final_map[y*11+countery][x*11+counterx] = map_data.north_east_rooms[room_var][i][e]
                                 counterx += 1
                             counterx = 0
                             countery +=1
                 
                     elif self.side_count_map[y][x]["left"] == True and self.side_count_map[y][x]["top"] == True:
-                        for i in range(len(map_data.north_west_rooms[0])):
-                            for e in range(len(map_data.north_west_rooms[0][i])):
-                                self.final_map[y*11+countery][x*11+counterx] = map_data.north_west_rooms[0][i][e]
+                        for i in range(len(map_data.north_west_rooms[room_var])):
+                            for e in range(len(map_data.north_west_rooms[room_var][i])):
+                                self.final_map[y*11+countery][x*11+counterx] = map_data.north_west_rooms[room_var][i][e]
                                 counterx += 1
                             counterx = 0
                             countery +=1
                 
                     elif self.side_count_map[y][x]["bottom"] == True and self.side_count_map[y][x]["right"] == True:
-                        for i in range(len(map_data.south_east_rooms[0])):
-                            for e in range(len(map_data.south_east_rooms[0][i])):
-                                self.final_map[y*11+countery][x*11+counterx] = map_data.south_east_rooms[0][i][e]
+                        for i in range(len(map_data.south_east_rooms[room_var])):
+                            for e in range(len(map_data.south_east_rooms[room_var][i])):
+                                self.final_map[y*11+countery][x*11+counterx] = map_data.south_east_rooms[room_var][i][e]
                                 counterx += 1
                             counterx = 0
                             countery +=1
                     
                     elif self.side_count_map[y][x]["left"] == True and self.side_count_map[y][x]["bottom"] == True:
-                        for i in range(len(map_data.south_west_rooms[0])):
-                            for e in range(len(map_data.south_west_rooms[0][i])):
-                                self.final_map[y*11+countery][x*11+counterx] = map_data.south_west_rooms[0][i][e]
+                        for i in range(len(map_data.south_west_rooms[room_var])):
+                            for e in range(len(map_data.south_west_rooms[room_var][i])):
+                                self.final_map[y*11+countery][x*11+counterx] = map_data.south_west_rooms[room_var][i][e]
                                 counterx += 1
                             counterx = 0
                             countery +=1

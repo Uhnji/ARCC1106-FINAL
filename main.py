@@ -13,6 +13,13 @@ from map_data import *
 winWidth = 640
 winHeight = 480
 
+def load_Map():
+    map = DLAmap.map_gen()
+    map.explode_map()
+    map.map_convert()
+    map.map_finalize()
+    return map.final_map
+
 def y_sort(render_layer): #Sorts from bottom to top to get render order.
     for i in range(len(render_layer)):
         for j in range(i, len(render_layer)):
@@ -34,21 +41,18 @@ def initialize_pygame():
     return win,clock
 
 if __name__ == '__main__':
-    render_layer0 = []
-    render_layer1 = []
-    render_layer2 = []
     win, clock = initialize_pygame()
     player = Player_Object(1792, 1792)
     enemy = Enemy(1792, 1792)
-    map = DLAmap.map_gen()
-    map.explode_map()
-    map.map_convert()
-    map.map_finalize()
+    tileset = load_Map()
 
-    dungeon = TileMap(map.final_map)
+    dungeon = TileMap(tileset)
 
 
     while True:
+        render_layer0 = []
+        render_layer1 = []
+        render_layer2 = []
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -93,23 +97,19 @@ if __name__ == '__main__':
         timer_frame = None 
 
         if 450 < player.cooldown <= 600: # Mainline check to append the Player Cooldown icon to the screen following the Dash (Accessibility Function)
-            timer_frame = (player.timer_sprites[1],player.x,player.y-45)
+            render_layer2.append((player.timer_sprites[1],player.x,player.y-45))
 
         elif 300 < player.cooldown <= 450:
-            timer_frame = (player.timer_sprites[2],player.x,player.y-45)
+            render_layer2.append((player.timer_sprites[2],player.x,player.y-45))
 
         elif 150 < player.cooldown <= 300:
-            timer_frame = (player.timer_sprites[3],player.x,player.y-45)
+            render_layer2.append((player.timer_sprites[3],player.x,player.y-45))
 
         elif 50 < player.cooldown <= 150:
-            timer_frame = (player.timer_sprites[4],player.x,player.y-45)
+            render_layer2.append((player.timer_sprites[4],player.x,player.y-45))
 
         elif 0 < player.cooldown <= 50: 
-            timer_frame = (player.timer_sprites[5],player.x,player.y-45)
-
-
-        if timer_frame != None:
-            render_layer2.append(timer_frame)
+            render_layer2.append((player.timer_sprites[5],player.x,player.y-45))
 
 
 
@@ -156,9 +156,5 @@ if __name__ == '__main__':
         enemy.render(win)
 
         pygame.display.flip()
-
-        render_layer0.clear()
-        render_layer1.clear()
-        render_layer2.clear()
-
+        
         clock.tick(120)

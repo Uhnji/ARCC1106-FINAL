@@ -1,5 +1,8 @@
 import pygame
 
+
+
+
 class Player_Object:
     def __init__(self, x, y):
         self.rect = pygame.Rect(x, y, 64, 64)
@@ -11,7 +14,7 @@ class Player_Object:
         self.right = False
         self.up = False
         self.down = False
-        self.init_speed = 2
+        self.init_speed = 3
         self.speed = 0
         self.dash_active = False
         self.dash_timer = 0 # counts down to 0 from dash duration (Base: 2 seconds)
@@ -101,6 +104,17 @@ class Player_Object:
             5 : pygame.image.load('Sprites/Sprint Indicator/Progress4.png')  #100%
         }
 
+    def if_collision_adjust(self):
+        if self.colliding:
+                if abs(self.tile_rect.top - self.rect.bottom) < self.accuracy and self.velY > 0 or abs(self.tile_rect.bottom - self.rect.top) < self.accuracy and self.velY < 0:
+                    self.y -= self.velY * 1.1
+
+                if abs(self.tile_rect.right - self.rect.left) < self.accuracy and self.velX < 0 or abs(self.tile_rect.left - self.rect.right) < self.accuracy and self.velX > 0:
+                    self.x -= self.velX * 1.1
+
+
+
+
     def draw(self,win): #Draws the Player object
         #Handle animations.
         if self.sprite_dir == "UP":
@@ -138,16 +152,14 @@ class Player_Object:
 
     def check_collisions(self, tiles):#Checks if player rect and tile rect are colliding, player speed cancels when they do.
         for i in range(len(tiles)):
-            self.tile_rect = pygame.Rect(tiles[i][1], tiles[i][2], 64,64)
-            self.colliding = pygame.Rect.colliderect(self.rect, self.tile_rect)
-            self.accuracy = 11 #Multiples of 10 make the collisions weird. Play around with this value if collisions are weird anyways.
+            if tiles[i][3] == 1:
+                self.tile_rect = pygame.Rect(tiles[i][1], tiles[i][2], 64,64)
+                self.colliding = pygame.Rect.colliderect(self.rect, self.tile_rect)
+                self.accuracy = 11 #Multiples of 10 make the collisions weird. Play around with this value if collisions are weird anyways.
+            else:
+                continue
 
-            if self.colliding:
-                if abs(self.tile_rect.top - self.rect.bottom) < self.accuracy and self.velY > 0 or abs(self.tile_rect.bottom - self.rect.top) < self.accuracy and self.velY < 0:
-                    self.y -= self.velY * 1.1
-
-                if abs(self.tile_rect.right - self.rect.left) < self.accuracy and self.velX < 0 or abs(self.tile_rect.left - self.rect.right) < self.accuracy and self.velX > 0:
-                    self.x -= self.velX * 1.1
+            self.if_collision_adjust()
                     
     def update(self):
         self.velX = 0

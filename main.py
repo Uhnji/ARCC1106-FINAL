@@ -129,8 +129,8 @@ if __name__ == '__main__':
 
         #Add to render layer 1.
         render_layer1.append(player.draw(win))
-            
-
+        render_layer1.append(enemy.render(win))
+        
         render_layer0 += floor_tiles
         render_layer1 += tiles
         tiles.clear()

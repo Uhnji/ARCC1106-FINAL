@@ -14,7 +14,7 @@ class Player_Object:
         self.right = False
         self.up = False
         self.down = False
-        self.init_speed = 3
+        self.init_speed = 2.5
         self.speed = 0
         self.dash_active = False
         self.dash_timer = 0 # counts down to 0 from dash duration (Base: 2 seconds)

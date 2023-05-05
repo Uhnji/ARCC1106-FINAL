@@ -13,12 +13,71 @@ class Enemy():
         self.friction = .5
         self.dir = 1
 
+        self.move_timer = 0
+        self.move_timer_max = 60
+
         self.up = True
         self.down = False
         self.right = False
         self.left = False
 
+        self.frame = 0
+
+        self.frames = {
+
+            0: pygame.image.load('Sprites/Enemy_Frames/Enemy1.png'),  # Downrunning
+
+            1: pygame.image.load('Sprites/Enemy_Frames/Enemy2.png'),  # Downrunning
+
+            2: pygame.image.load('Sprites/Enemy_Frames/Enemy3.png'),  # Downrunning
+
+            3: pygame.image.load('Sprites/Enemy_Frames/Enemy5.png'),  # Rightrunning
+
+            4: pygame.image.load('Sprites/Enemy_Frames/Enemy6.png'),  # Rightrunning
+
+            5: pygame.image.load('Sprites/Enemy_Frames/Enemy8.png'),  # Rightrunning
+
+            6: pygame.image.load('Sprites/Enemy_Frames/Enemy9.png'),  # Leftrunning
+
+            7: pygame.image.load('Sprites/Enemy_Frames/Enemy10.png'),  # Leftrunning
+
+            8: pygame.image.load('Sprites/Enemy_Frames/Enemy12.png'),  # Leftrunning
+
+            9: pygame.image.load('Sprites/Enemy_Frames/Enemy13.png'),  # Uprunning
+
+            10: pygame.image.load('Sprites/Enemy_Frames/Enemy14.png'),  # Uprunning
+
+            11: pygame.image.load('Sprites/Enemy_Frames/Enemy15.png'),  # Uprunning
+        }
+
+        self.anim = {
+            0 : [self.frames[0], self.frames[1], self.frames[2], self.frames[1]], # Down
+
+            1: [self.frames[3], self.frames[4], self.frames[3], self.frames[5]], # Right
+
+            2: [self.frames[6], self.frames[7], self.frames[6], self.frames[8]], # Left
+
+            3: [self.frames[9], self.frames[10], self.frames[11], self.frames[10]] # Up
+        }
+
     def update(self, px, py):
+
+        if self.move_timer <= 0:
+            if abs(px - self.x) > abs(py - self.y):
+                if self.x > px:
+                    self.dir = 4
+                else:
+                    self.dir = 3
+            else:
+                if self.y > py:
+                    self.dir = 1
+                else:
+                    self.dir = 2
+            self.move_timer = self.move_timer_max
+        else:
+            self.move_timer -= 1
+
+
         if self.dir == 1:
             self.up = True
 
@@ -43,10 +102,10 @@ class Enemy():
         else:
             self.left = False
 
-        if self.up and self.velY >= -self.speed:
+        if self.up and self.velY >= -self.speed and self.y >= -32 and self.y <= 480:
             self.velY -= self.accel
 
-        elif self.down and self.velY <= self.speed:
+        elif self.down and self.velY <= self.speed and self.y >= -32 and self.y <= 480:
             self.velY += self.accel
 
         else:
@@ -62,10 +121,10 @@ class Enemy():
                 if self.velY >= self.friction:
                     self.velY = 0
 
-        if self.left and self.velX >= -self.speed:
+        if self.left and self.velX >= -self.speed and self.x >= -32 and self.x <= 640:
             self.velX -= self.accel
 
-        elif self.right and self.velX <= self.speed:
+        elif self.right and self.velX <= self.speed and self.x >= -32 and self.x <= 640:
             self.velX += self.accel
 
         else:
@@ -102,4 +161,22 @@ class Enemy():
                     self.dir = random.randint(1, 4)
 
     def render(self, window):
-        pygame.draw.rect(window, (255, 0, 0), (self.x, self.y, 32, 32))
+        if self.dir == 1:
+            self.current_anim = 3
+        if self.dir == 2:
+            self.current_anim = 0
+
+        if self.dir == 3:
+            self.current_anim = 1
+
+        if self.dir == 4:
+            self.current_anim = 2
+
+        #Loop through frames on sync with main game loop.
+        if self.frame <= len(self.anim[self.current_anim]):
+            self.sprite = [pygame.transform.scale(self.anim[self.current_anim][int(self.frame)], (96, 96)), self.x - 32, self.y - 40]#Set sprite based on frame.
+            self.frame += 1/24#Go to next frame in accordance with animation speed.
+        else:
+            self.frame = 0#Loop when done with the animation.
+
+        return self.sprite
